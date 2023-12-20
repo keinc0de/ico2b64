@@ -24,5 +24,9 @@ Una vez que conviertes **A BASE64** el programa te proporciona la siguiente info
 Con el boton **BN** cambia el color de fondo del visor del icono de negro a blanco y viceversa.
 con los numero que estan al lado del boton **BN** se puede asignar el limite de caracter por linea y la sangria o tabulacion de la primera linea (para que al momento de presionar **COPIAR**) el texto ya este formateado
 
+![](imgs_md/i64_ns_v1.mp4)
+
 **LIBRERIAS**
-- -
+- tkinterdnd2-universal==1.7.3
+- Pillow==10.0.0
+

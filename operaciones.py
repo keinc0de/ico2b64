@@ -1,22 +1,19 @@
 from pathlib import Path
 import base64
 from PIL import ImageTk, Image
-import json
+# import json
 
 
 class MiIcono:
     def __init__(self, img_ruta):
         img_ruta = Path(img_ruta).as_posix()
         self.img = Image.open(img_ruta)
-        # self.icono = None
         self.data = {'ruta': img_ruta, 'nombre':Path(img_ruta).name}
 
     def size(self, wh):
         if self.img is not None:
-            # self.icono = ImageTk.PhotoImage(self.img.resize((wh, wh), Image.LANCZOS))
             img_r = self.img.resize((wh, wh), Image.LANCZOS)
             self.data['img r'] = img_r
-            # self.data['px'] = wh,
             self.data['resolusion'] = f"{wh}x{wh}"
             return img_r
         
@@ -43,45 +40,22 @@ class MiIcono:
             return 'None...'
         
     def convertir_a_base64(self, img_archivo, wh):
-        # self.redimensiona_y_guarda(wh, img_archivo)
         return self.en_base64()
-
-
-    
-
-    # def en_base64(self, px=16):
-    #     img_bin = self.img.tobytes()
-    #     b64_byte = base64.b64encode(img_bin) 
-    #     b64_str = b64_byte.decode()
-    #     return b64_str
-        # print(type(b64_byte), ':tipo::', b64_str)
-        # img_str = base64.b64encode(img_bin.getvalue())
-
-
-        # texto_b64 = base64.b64encode(img_bin.read())
-        # self.data['b64'] = texto_b64
-        # return texto_b64
-    
-
-        # with open(self.size(px), 'rb') as img:
-        #     texto_b64 = base64.b64encode(img.read())
-        #     self.data['b64'] = texto_b64
-        #     return texto_b64
         
     def obten_data(self):
         return self.data
     
-    def json_escribe(self, texto):
-        d = self.obten_data()
-        nom = Path(d.get('ruta')).stem
-        px = d.get('px')
-        archivo = f"{nom}_{px}px.json"
-        contenido = {
-            'tipo':'ICONO-B64',
-            'resolusion':f"{px}x{px}",
-            'len':len(texto),
-            'b64':texto
-        }
-        with open(archivo, 'w') as file:
-            json.dump(contenido, file, indent=4)
+    # def json_escribe(self, texto):
+    #     d = self.obten_data()
+    #     nom = Path(d.get('ruta')).stem
+    #     px = d.get('px')
+    #     archivo = f"{nom}_{px}px.json"
+    #     contenido = {
+    #         'tipo':'ICONO-B64',
+    #         'resolusion':f"{px}x{px}",
+    #         'len':len(texto),
+    #         'b64':texto
+    #     }
+    #     with open(archivo, 'w') as file:
+    #         json.dump(contenido, file, indent=4)
 

@@ -107,6 +107,10 @@ class Interfaz(tk.Frame):
         self.rowconfigure(1, weight=6, minsize=100)
         self._valores_iniciales()
 
+        self.out_b64.config(
+            selectbackground='#1C0A82', selectforeground='white'
+        )
+
     def escribe(self, texto, tag, **kwargs):
         self.out_b64.insert('end', texto, tag)
         self.out_b64.tag_config(tag, **kwargs)
@@ -148,11 +152,6 @@ class Interfaz(tk.Frame):
         self.ico_tk = self.mi_icono.para_tk(int(self.escala_str.get()))
         self.lb_visor.config(image=self.ico_tk)
         self.out_b64.see(tk.END)
-    
-    # def guarda_imagen_temporal(self):
-    #     if self.imagen is not None:
-    #         px = int(self.escala_str.get())
-    #         self.mi_icono.redimensiona_y_guarda(px)
 
     def convertir_a_base64(self):
         if self.imagen is not None:
@@ -243,7 +242,7 @@ class Interfaz(tk.Frame):
 
 if __name__=="__main__":
     app = tk.Tk()
-    p1 = Pagina1(bg='green')
+    p1 = Interfaz(bg='green')
     p1.grid(row=0, column=0, sticky='wens')
     app.columnconfigure(0, weight=1)
     app.rowconfigure(0, weight=1)

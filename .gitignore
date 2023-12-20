@@ -3,3 +3,5 @@ otros/
 ./img-temporal.png
 excluir/
 salida/
+*.png
+img-temporal.png

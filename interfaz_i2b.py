@@ -3,7 +3,6 @@ from tkinter import ttk
 from operaciones import MiIcono
 from pathlib import Path
 from pprint import pprint
-import subprocess
 
 
 class Interfaz(tk.Frame):
@@ -31,9 +30,9 @@ class Interfaz(tk.Frame):
             fm1, orient='horizontal', variable=self.escala_str,
             from_=12, to=60, showvalue=False, resolution=1,
             command=self.recorre_escala,
-            troughcolor='#6C6E74', bd=0, relief='flat', fg='green', bg='gray',
-            sliderrelief='groove', borderwidth=0,
-            highlightcolor=b1, highlightbackground='#6C6E74', highlightthickness=0,
+            troughcolor='#686562', bd=0, relief='flat', fg='red', bg='#F0EAD6',
+            sliderrelief='flat', borderwidth=0,
+            highlightcolor=b1, highlightbackground='#686562', highlightthickness=0,
         )
         # self.scala = ttk.Scale(
         #     fm1, orient='horizontal', variable=self.escala_str,
@@ -83,7 +82,8 @@ class Interfaz(tk.Frame):
         self.bt_conv = ttk.Button(fmb, text='A BASE64', command=self.convertir_a_base64)
         self.bt_conv.grid(row=0, column=1, sticky='e')
         self.bt_conv.config(width=16)
-        self.bt_clip = ttk.Button(fmb, text='COPIAR', command=lambda:self.copiar_texto())
+        # self.bt_clip = ttk.Button(fmb, text='COPIAR', command=lambda:self.copiar_texto())
+        self.bt_clip = ttk.Button(fmb, text='COPIAR', command=self.copiar_texto_con_limite)
         self.bt_clip.grid(row=0, column=2, sticky='e')
         self.bt_conv.configure(padding=0)
         self.bt_clip.configure(padding=0)
@@ -172,10 +172,39 @@ class Interfaz(tk.Frame):
     def copiar_texto(self):
         if self.imagen is not None:
             img64 = self.mi_icono.data['icono64']
+            n = len(img64)
+            lineas = []
+            valor = 100
+            i = 0
+            for x in range(int(n/valor)):
+                lineas.append(img64[i:i+valor]+"\n")
+                i+=100
+            if i<n:
+                lineas.append(img64[i:])
             self.parent.clipboard_clear()
-            self.parent.clipboard_append(img64)
+            # self.parent.clipboard_append(img64)
+            self.parent.clipboard_append(''.join(lineas))
             s = {'font':('Consolas', 8), 'foreground':'#C3E734'}
             self.escribe('icono en base64 - copiado al portapapeles\n', 'msg1', **s)
+
+    def copiar_texto_con_limite(self, chars=100):
+        if self.imagen is not None:
+            img64 = self.mi_icono.data['icono64']
+            limite = len(img64)
+            # indice = 0
+            lm = int(limite/chars)
+            lineas = []
+            # lineas = [img64[i*chars:(i*chars)+chars]+"\n" for i in int(limite/chars)]
+            for i in range(lm):
+                lineas.append(img64[i*chars:(i*chars)+chars]+"\n")
+            if i<limite:
+                lineas.append(img64[i*chars+chars:])
+
+            self.parent.clipboard_clear()
+            self.parent.clipboard_append(''.join(lineas))
+            s = {'font':('Consolas', 8), 'foreground':'#C3E734'}
+            self.escribe('icono en base64 - copiado al portapapeles\n', 'msg1', **s)
+
 
     def guarda_json(self):
         if self.texto_clip is not None:
